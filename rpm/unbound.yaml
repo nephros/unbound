@@ -1,0 +1,172 @@
+Name: unbound
+Summary: A validating, recursive, caching DNS resolver
+Version: 1.17.1
+Release: 0
+Group: Applications
+License: BSD-3-Clause
+URL: https://nlnetlabs.nl/projects/unbound/about/
+SCM: https://github.com/NLnetLabs/unbound
+Sources:
+    # '%{name}-%{version}.tar.gz'
+    - https://nlnetlabs.nl/downloads/unbound/%{name}-%{version}.tar.gz
+    - '%{name}-anchor.service'
+    - '%{name}.service'
+    - '%{name}.socket'
+    - 01-require-home-mount-to-be-present.conf
+    - sailfishos.conf
+    - dnscrypt.conf
+    - dot-forward.conf
+
+Description: |
+    %{summary}.
+
+    Unbound supports DNS-over-TLS and DNS-over-HTTPS which allows clients to
+    encrypt their communication. In addition, it supports various modern
+    standards that limit the amount of data exchanged with authoritative
+    servers. These standards do not only improve privacy but also help making
+    the DNS more robust. The most important are Query Name Minimisation, the
+    Aggressive Use of DNSSEC-Validated Cache and support for authority zones,
+    which can be used to load a copy of the root zone.
+
+    %if "%{?vendor}" == "chum"
+    PackageName: Unbound
+    PackagerName: nephros
+    DeveloperName: NLnet Labs
+    Categories:
+      - Network
+    Custom:
+      Repo: https://github.com/NLnetLabs/unbound
+    Icon: https://nlnetlabs.nl/static/logos/Unbound/Mark_Unbound_FC_Shaded.svg
+    Url:
+      Homepage:   https://nlnetlabs.nl/projects/unbound/about/
+      Help:       https://unbound.docs.nlnetlabs.nl/en/latest/
+      Bugtracker: https://github.com/NLnetLabs/unbound/issues
+    %endif
+
+#SetupOptions: -q -n %{name}-%{version}/upstream
+RpmLintIgnore:
+  - 'summary-too-long'
+  - 'description-line--too-long'
+  - 'no-changelogname-tag'
+  - 'invalid-url'
+  - 'desktopfile-without-binary'
+  - 'explicit-lib-dependency'
+  - 'dir-or-file-in-home'
+Macros:
+  - 'soname_maj;8'
+  - 'soname_ver;8.1.21'
+  - 'sfos_user;dns'
+  # 'sfos_confdir;/home/.system/%{_sysconfdir}/' # var/lib/etc
+  - 'sfos_confdir;%{_sysconfdir}' # /etc
+  - 'sfos_statedir;/home/.system/%{_localstatedir}/'  # var
+  # 'sfos_rundir;/home/.system/%{_localstatedir}/%{rundir}/%{name}'  # var/run
+  # 'sfos_rundir;%{_rundir}/activeuser/%{name}'  # /run/...
+  - |
+    spectacle_bug; hack_fix
+    # Spectacular spectacle hack:
+    #   abuse Macros to work around the Macro-deleting bug in 0.32
+    %bcond_with python3
+    %bcond_with dnstap
+    %if %{with dnstap}
+    BuildRequires:  libfstrm-devel
+    BuildRequires:  libprotobuf-c-devel >= 1.0.0
+    BuildRequires:  protobuf-c >= 1.0.0
+    %endif
+    %if %{with python3}
+    BuildRequires:  python-rpm-macros
+    BuildRequires:  python3-devel
+    BuildRequires:  swig
+    %endif
+#Patches:
+#  - 'baz'
+#Requires:
+RequiresPre:
+  - systemd
+RequiresPost:
+  - systemd
+RequiresPreUn:
+  - systemd
+RequiresPostUn:
+  - systemd
+#PkgBR:
+#    - protobuf-c
+#    - protobuf-c-devel
+PkgConfigBR:
+    - openssl
+    - systemd
+    - libsodium
+    - libevent
+#Configure: none
+ConfigOptions:
+  - 'CFLAGS="$RPM_OPT_FLAGS -fPIC -pie"'
+  - 'CXXFLAGS="$RPM_OPT_FLAGS -fPIC -pie"'
+  - --with-username=%{sfos_user}
+  - --sysconfdir=%{sfos_confdir}
+  - --sharedstatedir=%{sfos_statedir}
+  - --localstatedir=%{sfos_statedir}
+  - --with-pidfile=%{_rundir}/%{name}/%{name}.pid
+  - --enable-pie
+  - --enable-systemd
+  # needs protobuf-c (binary)
+  # --enable-dnstap
+  # needs libsodium
+  - --enable-dnscrypt
+  - --enable-ipsecmod
+  # from OpenSuSE:
+  - --disable-rpath
+  - --enable-relro-now
+  # needs libevent ;)
+  - --with-libevent
+  - --with-pthreads
+  - --disable-explicit-port-randomisation
+
+#Builder: qmake5
+#NoIconCache: true
+#BuildArch: noarch
+#AutoSubPackages:
+#  - doc
+Files:
+  - '%license LICENSE'
+  - '%doc README.md SECURITY.md'
+  - '%{_sbindir}/*'
+  - '%config %{sfos_confdir}/%{name}/%{name}.conf'
+  - '%config(noreplace) %{sfos_confdir}/%{name}/sailfishos.conf'
+  - '%config(noreplace) %{sfos_confdir}/%{name}/%{name}.conf.d/*.conf'
+  # '%dir %{sfos_statedir}/lib/%{name}'
+  - '%{_unitdir}/*.service'
+  - '%{_unitdir}/*.socket'
+  - '%{_unitdir}/%{name}.service.d'
+
+SubPackages:
+    - Name:  devel
+      AutoDepend: false
+      Summary: Development files for %{name}
+      Group: Development/Libraries
+      Requires:
+        - libunbound%{soname_maj} = %{version}
+      Files:
+        - '%license LICENSE'
+        - '%{_includedir}/*.h'
+        - '%{_libdir}/*.so'
+        - '%{_libdir}/pkgconfig/*.pc'
+
+    - Name:  libunbound%{soname_maj}
+      AsWholeName: true
+      AutoDepend: false
+      Summary: libunbound library
+      Group: Development/Libraries
+      Description: |
+          %{summary}.
+
+          %if "%{?vendor}" == "chum"
+          PackageName: libunbound
+          DeveloperName: NLnet Labs
+          PackagerName: nephros
+          Categories:
+            - Library
+          %endif
+      Files:
+        - '%license LICENSE'
+        - '%{_libdir}/lib%{name}.so.%{soname_maj}'
+        - '%{_libdir}/lib%{name}.so.%{soname_ver}'
+

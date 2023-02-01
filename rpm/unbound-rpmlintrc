@@ -1,0 +1,8 @@
+from Config import *
+addFilter("summary-too-long")
+addFilter("description-line--too-long")
+addFilter("no-changelogname-tag")
+addFilter("invalid-url")
+addFilter("desktopfile-without-binary")
+addFilter("explicit-lib-dependency")
+addFilter("dir-or-file-in-home")

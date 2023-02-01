@@ -1,0 +1,12 @@
+[Unit]
+Description=Unbound recursive Domain Name Server
+Documentation=https://www.freedesktop.org/software/systemd/man/systemd.socket.html
+
+[Socket]
+ListenDatagram=127.0.0.1:1153
+ListenStream=127.0.0.1:1153
+ListenDatagram=[::1]:1153
+ListenStream=[::1]:1153
+
+[Install]
+WantedBy=sockets.target

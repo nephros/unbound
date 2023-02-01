@@ -1,0 +1,16 @@
+[Unit]
+Description=Unbound recursive Domain Name Server
+Documentation=https://unbound.docs.nlnetlabs.nl/en/latest/
+ 
+After=network.target
+Before=nss-lookup.target
+Wants=nss-lookup.target
+
+[Service]
+Type=simple
+ExecStartPre=-/usr/bin/mkdir /run/unbound/
+ExecStartPre=/usr/sbin/unbound-checkconf /etc/unbound/sailfishos.conf
+ExecStart=/usr/sbin/unbound -d -c /etc/unbound/sailfishos.conf
+
+[Install]
+WantedBy=multi-user.target
