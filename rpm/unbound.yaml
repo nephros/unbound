@@ -92,6 +92,7 @@ RequiresPostUn:
 #    - protobuf-c
 #    - protobuf-c-devel
 PkgConfigBR:
+    - expat
     - openssl
     - systemd
     - libsodium

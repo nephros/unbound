@@ -48,6 +48,7 @@ Requires(pre): systemd
 Requires(preun): systemd
 Requires(post): systemd
 Requires(postun): systemd
+BuildRequires:  pkgconfig(expat)
 BuildRequires:  pkgconfig(openssl)
 BuildRequires:  pkgconfig(systemd)
 BuildRequires:  pkgconfig(libsodium)
