@@ -8,7 +8,7 @@ Name:       unbound
 # >> macros
 # << macros
 %define soname_maj 8
-%define soname_ver 8.1.21
+%define soname_ver 8.1.26
 %define sfos_user dns
 %define sfos_confdir %{_sysconfdir}
 %define sfos_statedir /home/.system/%{_localstatedir}/
@@ -29,7 +29,7 @@ BuildRequires:  swig
 %endif
 
 Summary:    A validating, recursive, caching DNS resolver
-Version:    1.17.1
+Version:    1.19.3
 Release:    0
 Group:      Applications
 License:    BSD-3-Clause
@@ -53,6 +53,8 @@ BuildRequires:  pkgconfig(openssl)
 BuildRequires:  pkgconfig(systemd)
 BuildRequires:  pkgconfig(libsodium)
 BuildRequires:  pkgconfig(libevent)
+BuildRequires:  flex
+BuildRequires:  bison
 
 %description
 %{summary}.
@@ -66,7 +68,7 @@ Aggressive Use of DNSSEC-Validated Cache and support for authority zones,
 which can be used to load a copy of the root zone.
 
 %if "%{?vendor}" == "chum"
-PackageName: Unbound
+PackageName: Unbound DNS
 PackagerName: nephros
 DeveloperName: NLnet Labs
 Categories:

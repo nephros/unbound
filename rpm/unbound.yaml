@@ -1,6 +1,7 @@
 Name: unbound
 Summary: A validating, recursive, caching DNS resolver
-Version: 1.17.1
+# remember to adjust the library version macro below
+Version: 1.19.3
 Release: 0
 Group: Applications
 License: BSD-3-Clause
@@ -29,7 +30,7 @@ Description: |
     which can be used to load a copy of the root zone.
 
     %if "%{?vendor}" == "chum"
-    PackageName: Unbound
+    PackageName: Unbound DNS
     PackagerName: nephros
     DeveloperName: NLnet Labs
     Categories:
@@ -54,7 +55,7 @@ RpmLintIgnore:
   - 'dir-or-file-in-home'
 Macros:
   - 'soname_maj;8'
-  - 'soname_ver;8.1.21'
+  - 'soname_ver;8.1.26'
   - 'sfos_user;dns'
   # 'sfos_confdir;/home/.system/%{_sysconfdir}/' # var/lib/etc
   - 'sfos_confdir;%{_sysconfdir}' # /etc
@@ -88,9 +89,9 @@ RequiresPreUn:
   - systemd
 RequiresPostUn:
   - systemd
-#PkgBR:
-#    - protobuf-c
-#    - protobuf-c-devel
+PkgBR:
+    - flex
+    - bison
 PkgConfigBR:
     - expat
     - openssl
@@ -121,11 +122,6 @@ ConfigOptions:
   - --with-pthreads
   - --disable-explicit-port-randomisation
 
-#Builder: qmake5
-#NoIconCache: true
-#BuildArch: noarch
-#AutoSubPackages:
-#  - doc
 Files:
   - '%license LICENSE'
   - '%doc README.md SECURITY.md'
