@@ -53,6 +53,8 @@ BuildRequires:  pkgconfig(openssl)
 BuildRequires:  pkgconfig(systemd)
 BuildRequires:  pkgconfig(libsodium)
 BuildRequires:  pkgconfig(libevent)
+BuildRequires:  flex
+BuildRequires:  bison
 
 %description
 %{summary}.

@@ -88,9 +88,9 @@ RequiresPreUn:
   - systemd
 RequiresPostUn:
   - systemd
-#PkgBR:
-#    - protobuf-c
-#    - protobuf-c-devel
+PkgBR:
+    - flex
+    - bison
 PkgConfigBR:
     - expat
     - openssl
