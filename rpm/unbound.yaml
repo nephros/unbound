@@ -1,7 +1,7 @@
 Name: unbound
 Summary: A validating, recursive, caching DNS resolver
 # remember to adjust the library version macro below
-Version: 1.19.3
+Version: 1.23.0
 Release: 0
 Group: Applications
 License: BSD-3-Clause
