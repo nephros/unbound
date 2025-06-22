@@ -8,7 +8,7 @@ Name:       unbound
 # >> macros
 # << macros
 %define soname_maj 8
-%define soname_ver 8.1.26
+%define soname_ver 8.1.31
 %define sfos_user dns
 %define sfos_confdir %{_sysconfdir}
 %define sfos_statedir /home/.system/%{_localstatedir}/

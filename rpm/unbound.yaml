@@ -55,7 +55,7 @@ RpmLintIgnore:
   - 'dir-or-file-in-home'
 Macros:
   - 'soname_maj;8'
-  - 'soname_ver;8.1.26'
+  - 'soname_ver;8.1.31'
   - 'sfos_user;dns'
   # 'sfos_confdir;/home/.system/%{_sysconfdir}/' # var/lib/etc
   - 'sfos_confdir;%{_sysconfdir}' # /etc
