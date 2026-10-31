@@ -8,13 +8,11 @@ Name:       unbound
 # >> macros
 # << macros
 %define soname_maj 8
-%define soname_ver 8.1.31
+%define soname_ver 8.1.41
 %define sfos_user dns
 %define sfos_confdir %{_sysconfdir}
 %define sfos_statedir /home/.system/%{_localstatedir}/
-%define spectacle_bug hack_fix
-# Spectacular spectacle hack:
-#   abuse Macros to work around the Macro-deleting bug in 0.32
+%define nothing important
 %bcond_with python3
 %bcond_with dnstap
 %if %{with dnstap}

@@ -17,6 +17,28 @@ Sources:
     - sailfishos.conf
     - dnscrypt.conf
     - dot-forward.conf
+#Patches:
+#  - 'baz'
+Macros:
+  - 'soname_maj;8'
+  - 'soname_ver;8.1.41'
+  - 'sfos_user;dns'
+  - 'sfos_confdir;%{_sysconfdir}' # /etc
+  - 'sfos_statedir;/home/.system/%{_localstatedir}/'  # var
+  - |
+    nothing;important
+    %bcond_with python3
+    %bcond_with dnstap
+    %if %{with dnstap}
+    BuildRequires:  libfstrm-devel
+    BuildRequires:  libprotobuf-c-devel >= 1.0.0
+    BuildRequires:  protobuf-c >= 1.0.0
+    %endif
+    %if %{with python3}
+    BuildRequires:  python-rpm-macros
+    BuildRequires:  python3-devel
+    BuildRequires:  swig
+    %endif
 
 Description: |
     %{summary}.
@@ -45,33 +67,6 @@ Description: |
     %endif
 
 SetupOptions: -q -n %{name}-%{version}/upstream
-Macros:
-  - 'soname_maj;8'
-  - 'soname_ver;8.1.31'
-  - 'sfos_user;dns'
-  # 'sfos_confdir;/home/.system/%{_sysconfdir}/' # var/lib/etc
-  - 'sfos_confdir;%{_sysconfdir}' # /etc
-  - 'sfos_statedir;/home/.system/%{_localstatedir}/'  # var
-  # 'sfos_rundir;/home/.system/%{_localstatedir}/%{rundir}/%{name}'  # var/run
-  # 'sfos_rundir;%{_rundir}/activeuser/%{name}'  # /run/...
-  - |
-    spectacle_bug; hack_fix
-    # Spectacular spectacle hack:
-    #   abuse Macros to work around the Macro-deleting bug in 0.32
-    %bcond_with python3
-    %bcond_with dnstap
-    %if %{with dnstap}
-    BuildRequires:  libfstrm-devel
-    BuildRequires:  libprotobuf-c-devel >= 1.0.0
-    BuildRequires:  protobuf-c >= 1.0.0
-    %endif
-    %if %{with python3}
-    BuildRequires:  python-rpm-macros
-    BuildRequires:  python3-devel
-    BuildRequires:  swig
-    %endif
-#Patches:
-#  - 'baz'
 #Requires:
 RequiresPre:
   - systemd
