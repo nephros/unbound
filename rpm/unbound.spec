@@ -29,7 +29,7 @@ BuildRequires:  swig
 %endif
 
 Summary:    A validating, recursive, caching DNS resolver
-Version:    1.23.0
+Version:    1.26.2
 Release:    0
 Group:      Applications
 License:    BSD-3-Clause
