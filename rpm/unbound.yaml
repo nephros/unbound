@@ -29,16 +29,16 @@ Description: |
     Aggressive Use of DNSSEC-Validated Cache and support for authority zones,
     which can be used to load a copy of the root zone.
 
-    %if "%{?vendor}" == "chum"
-    PackageName: Unbound DNS
-    PackagerName: nephros
+    %if 0%{?_chum}
+    Title: Unbound DNS
+    PackagedBy: nephros
     DeveloperName: NLnet Labs
     Categories:
       - Network
     Custom:
       Repo: https://github.com/NLnetLabs/unbound
-    Icon: https://nlnetlabs.nl/static/logos/Unbound/Mark_Unbound_FC_Shaded.svg
-    Url:
+    PackageIcon: https://nlnetlabs.nl/static/logos/Unbound/Mark_Unbound_FC_Shaded.svg
+    Links:
       Homepage:   https://nlnetlabs.nl/projects/unbound/about/
       Help:       https://unbound.docs.nlnetlabs.nl/en/latest/
       Bugtracker: https://github.com/NLnetLabs/unbound/issues
@@ -147,10 +147,10 @@ SubPackages:
       Description: |
           %{summary}.
 
-          %if "%{?vendor}" == "chum"
-          PackageName: libunbound
+          %if 0%{?_chum}
+          Title: libunbound
           DeveloperName: NLnet Labs
-          PackagerName: nephros
+          PackagedBy: nephros
           Categories:
             - Library
           %endif
