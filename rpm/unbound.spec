@@ -43,7 +43,6 @@ Source5:    sailfishos.conf
 Source6:    dnscrypt.conf
 Source7:    dot-forward.conf
 Source100:  unbound.yaml
-Source101:  unbound-rpmlintrc
 Requires(pre): systemd
 Requires(preun): systemd
 Requires(post): systemd
